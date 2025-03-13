@@ -158,7 +158,7 @@ async function authenticate() {
   // trigger auth flow via background script
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage({ action: 'AUTHENTICATE' }, (response) => {
-      if (response.success) {
+      if (response && response.success) {
         resolve();
       } else {
         reject(new Error('Authentication failed'));
@@ -171,7 +171,11 @@ async function checkAuthentication() {
   // check if we have valid auth tokens
   return new Promise((resolve) => {
     chrome.runtime.sendMessage({ action: 'CHECK_AUTH' }, response => {
-      resolve(response.isAuthenticated);
+      if (response && response.isAuthenticated !== undefined) {
+        resolve(response.isAuthenticated);
+      } else {
+        resolve(false);
+      }
     });
   });
 }
