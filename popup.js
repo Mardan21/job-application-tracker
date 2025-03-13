@@ -1,5 +1,99 @@
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadSavedSheets();
+  setupSheetManagement();
+});
+
+async function loadSavedSheets() {
+  const { sheets = [] } = await chrome.storage.sync.get('sheets');
+  const selector = document.getElementById('sheet-selector');
+
+  sheets.forEach(sheet => {
+    const option = new Option(sheet.name, sheet.id);
+    selector.addEventListener(option);
+  });
+
+  // show/hide form based on sheet selection
+  if (sheets.length > 0) {
+    document.getElementById('application-form').classList.remove('hidden');
+  }
+}
+
+function setupSheetManagement() {
+  const addSheetBtn = document.getElementById('add-sheet');
+  const addSheetForm = document.getElementById('add-sheet-form');
+  const cancelBtn = document.getElementById('cancel-add-sheet');
+  const saveSheetBtn = document.getElementById('save-sheet');
+  const sheetSelector = document.getElementById('sheet-selector');
+
+  addSheetBtn.addEventListener('click', () => {
+    addSheetForm.classList.remove('hidden');
+    addSheetBtn.classList.add('hidden');
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    addSheetForm.classList.add('hidden');
+    addSheetBtn.classList.remove('hidden');
+  });
+
+  saveSheetBtn.addEventListener('click', async () => {
+    const url = document.getElementById('sheet-url').value;
+    const name = document.getElementById('sheet-name').value;
+
+    if (!url || !name) {
+      displayError('Please fill in both fields');
+      return;
+    }
+
+    // extract sheet ID from URL
+    const sheetId = extractSheetId(url);
+    if(!sheetId) {
+      displayError('Invalid Google Sheets URL');
+      return;
+    }
+
+    // save to chrome.storage
+    const { sheets = [] } = await chrome.storage.sync.get('sheets');
+    sheets.push({ id: sheetId, name, url });
+    await chrome.storage.sync.set({ sheets });
+
+    // add to selector
+    const option = new Option(name, sheetId);
+    sheetSelector.add(option);
+    sheetSelector.value = sheetId;
+
+    // reset and hide form
+    addSheetForm.classList.add('hidden');
+    addSheetBtn.classList.remoce('hidden');
+    document.getElementById('sheet-url').value = '';
+    document.getElementById('sheet-name').value = '';
+    document.getElementById('application-form').classList.remove('hidden');
+  });
+
+  sheetSelector.addEventListener('change', () => {
+    const form = document.getElementById('application-form');
+    form.classList.toggle('hidden', !sheetSelector.value);
+  });
+}
+
+function extractSheetId(url) {
+  try {
+    const match = url.match(/spreadsheets\/d\/([a-zA-Z0-9-_]+)/)
+    return match ? match[1] : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+
+
 document.getElementById("application-form").addEventListener('submit', async(e) => {
   e.preventDefault();
+
+  const sheetId = document.getElementById('sheet-selector').value;
+  if (!sheetId) {
+    displayError('Please select a sheet first');
+  }
+
   const role = document.getElementById("role").value;
   const company = document.getElementById("company").value;
   const status = document.getElementById("status").value;
@@ -7,6 +101,7 @@ document.getElementById("application-form").addEventListener('submit', async(e) 
   const referred = document.getElementById("referred").checked;
 
   const jobData = {
+    sheetId,
     role,
     company,
     status,

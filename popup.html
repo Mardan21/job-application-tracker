@@ -6,6 +6,21 @@
   </head>
   <body>
     <div id="form-container">
+
+      <div class="sheet-selector">
+        <select id="sheet-selector">
+          <option value="">Select a sheet...</option>
+        </select>
+        <button id="add-sheet" type="button">Add New Sheet</button>
+      </div>
+
+      <div id="add-sheet-form" class="hidden">
+        <input type="text" id="sheet-url" placeholder="Paste Google Sheets URL">
+        <input type="text" id="sheet-name" placeholder="Sheet Name (e.g., Internships)">
+        <button id="save-sheet" type="button">Save</button>
+        <button id="cancel-add-sheet" type="button">Cancel</button>
+      </div>
+
       <form id="application-form">
         <div class="form-group">
           <label for="role">Role:</label>
@@ -47,6 +62,7 @@
         
         <button type="submit">Submit</button>
       </form>
+
     </div>
     <script src="popup.js"></script>
   </body>

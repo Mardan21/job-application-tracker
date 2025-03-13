@@ -63,3 +63,36 @@ button[type="submit"]:hover {
 input[type="checkbox"] {
   margin-right: 5px;
 }
+
+.sheet-selector {
+  margin-bottom: 15px;
+}
+
+#sheet-selector {
+  width: 70%;
+  margin-right: 5px;
+}
+
+#add-sheet {
+  width: 25%;
+  padding: 8px;
+  background-color: #34a853;
+}
+
+.hidden {
+  display: none;
+}
+
+#add-sheet-form {
+  margin-bottom: 15px;
+}
+
+#add-sheet-form input {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+#add-sheet-form button {
+  width: 48%;
+  margin-right: 2%;
+}

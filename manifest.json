@@ -31,6 +31,6 @@
   },
   "host_permissions": [
     "https://*.airtable.com/*",
-    "https://*.google.com/*"
+    "https://sheets.googleapis.com/*"
   ]
 }
