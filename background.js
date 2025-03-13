@@ -70,7 +70,7 @@ async function saveToSheets(jobData) {
     ];
 
     const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/AI:append?valueInputOption=USER_ENTERED`,
+      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A1:append?valueInputOption=USER_ENTERED`,
       {
         method: 'POST',
         headers: {
@@ -84,13 +84,60 @@ async function saveToSheets(jobData) {
     );
 
     if (!response.ok) {
-      throw new Error('Failed to save to Googe Sheets')
+      throw new Error('Failed to save to Googe Sheets');
     }
 
     return true;
   } catch (error) {
     console.log('Error saving to sheets:', error);
     throw error;
+  }
+}
+
+async function validateSheetAccess(sheetId) {
+  try {
+    const response = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?fields=properties.title`,
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }
+    );
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+}
+
+async function refreshToken() {
+  try {
+    await authenticate();
+    return true;
+  } catch (error) {
+    console.error('Token refresh failed:', error);
+    return false;
+  }
+}
+
+async function initializeSheetHeaders(sheetId) {
+  const headers = [['Role', 'Company', 'Status', 'Link', 'Referred', 'Date']];
+  try {
+    await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A1:F1?valueInputOption=USER_ENTERED`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          values: headers
+        })
+      }
+    );
+  } catch (error) {
+    console.error('Failed to initialize headers:', error);
   }
 }
 
