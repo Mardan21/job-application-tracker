@@ -2,6 +2,10 @@
   "manifest_version": 3,
   "name": "Job Application Tracker",
   "version": "1.0",
+  "oauth2": {
+    "client_id": "1082440828906-aracbv7n5st8bpp33udlsm7ph3llrknc.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/spreadsheets"]
+  },
   "description": "Track job applications directly from job pages in browser",
   "permissions": [
     "activeTab",
