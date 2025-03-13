@@ -4,7 +4,7 @@ const SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 let accessToken = null;
 
 // handle messages from popup
-chrome.runtime.onMessage.addEventListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => { // Correct method
   switch (request.action) {
     case "authenticate":
       authenticate();
@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addEventListener((request, sender, sendResponse) => {
       saveToSheets(request.data).then(result => {
         sendResponse({ success: true });
       }).catch(error => {
-        sendResponse({ success: false, error: error.mesage });
+        sendResponse({ success: false, error: error.message });
       });
       return true;
   }

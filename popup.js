@@ -9,7 +9,7 @@ async function loadSavedSheets() {
 
   sheets.forEach(sheet => {
     const option = new Option(sheet.name, sheet.id);
-    selector.addEventListener(option);
+    selector.add(option); // Fix the event listener issue
   });
 
   // show/hide form based on sheet selection
@@ -63,7 +63,7 @@ function setupSheetManagement() {
 
     // reset and hide form
     addSheetForm.classList.add('hidden');
-    addSheetBtn.classList.remoce('hidden');
+    addSheetBtn.classList.remove('hidden'); // Fix the typo
     document.getElementById('sheet-url').value = '';
     document.getElementById('sheet-name').value = '';
     document.getElementById('application-form').classList.remove('hidden');
