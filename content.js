@@ -47,3 +47,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     sendResponse(jobDetails);
   }
 });
+
+// Add event listener for the submit button
+document.addEventListener('DOMContentLoaded', () => {
+  const submitButton = document.querySelector('#submit-button');
+  if (submitButton) {
+    submitButton.addEventListener('click', () => {
+      chrome.runtime.sendMessage({ action: 'getJobDetails' }, (response) => {
+        console.log('Job Details:', response);
+        // Populate the form with job details
+        document.querySelector('#role').value = response.role;
+        document.querySelector('#company').value = response.company;
+        document.querySelector('#link').value = response.link;
+      });
+    });
+  }
+});
