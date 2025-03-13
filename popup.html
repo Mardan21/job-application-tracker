@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Job Application Tracker</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <div id="form-container">
-      <h2>JoBankai</h2>
       <form id="application-form">
-        <label for="role">Role:</label>
-        <input type="text" id="role" name="role" required><br>
-        <label for="company">Company:</label>
-        <input type="text" id="company" name="company" required><br>
-        <label for="status">Job Status:</label>
-        <select id="status" name="status">
-          <option value="applied">Applied</option>
-          <option value="1st interview">1st Interview</option>
-          <option value="behavioral interview">Behavioral Interview</option>
-          <option value="2nd interview">2nd Interview</option>
-          <option value="final interview">Final Interview</option>
-          <option value="job offer">Job Offer</option>
-          <option value="rejected">Rejected</option>
-        </select>
-        <label for="link">Job Link:</label>
-        <input type="url" id="link" name="link" required><br>
-        <label for="referred">Referred?</label>
-        <input type="checkbox" id="referred" name="referred"><br>
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <input type="text" id="role" name="role" required>
+        </div>
+
+        <div class="form-group">
+          <label for="company">Company:</label>
+          <input type="text" id="company" name="company" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Company:</label>
+          <input type="text" id="company" name="company" required>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Job Status:</label>
+          <select id="status" name="status">
+            <option value="applied">Applied</option>
+            <option value="1st interview">1st Interview</option>
+            <option value="behavioral interview">Behavioral Interview</option>
+            <option value="2nd interview">2nd Interview</option>
+            <option value="final interview">Final Interview</option>
+            <option value="job offer">Job Offer</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="link">Job Link:</label>
+          <input type="url" id="link" name="link" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="referred">Referred?</label>
+          <input type="checkbox" id="referred" name="referred">
+        </div>
+        
         <button type="submit">Submit</button>
       </form>
     </div>
