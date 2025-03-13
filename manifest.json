@@ -10,7 +10,8 @@
   "permissions": [
     "activeTab",
     "storage",
-    "identity"
+    "identity",
+    "alarms"
   ],
   "background": {
     "service_worker": "background.js"
@@ -29,7 +30,6 @@
     }
   },
   "host_permissions": [
-    "https://*.airtable.com/*",
     "https://sheets.googleapis.com/*"
   ]
 }

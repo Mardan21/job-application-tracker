@@ -84,6 +84,35 @@ function extractSheetId(url) {
   }
 }
 
+function showLoading(show = true) {
+  const loadingDiv = document.getElementById('loading') || createLoadingElement();
+  loadingDiv.style.display = show ? 'block' : 'none';
+}
+
+function createLoadingElement() {
+  const div = document.createElement('div');
+  div.id = 'loading';
+  div.textContent = 'Processing...';
+  document.body.appendChild(div);
+  return div;
+}
+
+function addSheetManagementUI() {
+  const sheetSelector = document.getElementById('sheet-selector');
+
+  // add delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete'
+  deleteBtn.onClick = async () => {
+    const { sheets = [] } = await chrome.storage.sync.get('sheets');
+    const updatedSheets = sheets.filter(s => s.id !== sheetSelector.value);
+    await chrome.storage.sync.set({ sheets: updatedSheets });
+    location.reload();
+  };
+
+  sheetSelector.parentNode.appendChild(deleteBtn);
+}
+
 
 
 document.getElementById("application-form").addEventListener('submit', async(e) => {
