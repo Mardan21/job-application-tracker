@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSavedSheets();
   setupSheetManagement();
+  populateJobDetails(); // Populate job details automatically
 });
 
 async function loadSavedSheets() {
@@ -113,8 +114,6 @@ function addSheetManagementUI() {
   sheetSelector.parentNode.appendChild(deleteBtn);
 }
 
-
-
 document.getElementById("application-form").addEventListener('submit', async(e) => {
   e.preventDefault();
 
@@ -217,3 +216,16 @@ async function saveToGoogleSheets(jobData) {
 // async function saveToAirTable(jobData) {
 //   // use AirTable API to send data
 // }
+
+async function populateJobDetails() {
+  // Request job details from the content script
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { action: 'getJobDetails' }, (response) => {
+      if (response) {
+        document.getElementById('role').value = response.role;
+        document.getElementById('company').value = response.company;
+        document.getElementById('link').value = response.link;
+      }
+    });
+  });
+}
